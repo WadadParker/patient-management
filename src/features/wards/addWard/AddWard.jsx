@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./addWard.module.css"
+
+import { addNewWard } from '../wardsSlice'
 
 export const AddWard = () => 
 {
   const [input,setInput] = useState({number:"",capacity:"",specializations:""})
+
+  const dispatch = useDispatch();
 
   const changeHandler=(inputField,text)=>
   {
@@ -15,7 +20,8 @@ export const AddWard = () =>
 
   const clickHandler =()=>
   {
-    
+    dispatch(addNewWard({number:Number(input.number), capacity:Number(input.capacity), specializations:input.specializations}));
+    setInput({number:"",capacity:"",specializations:""});
   }
 
 

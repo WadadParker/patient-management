@@ -1,53 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
-export const fetchPatients = createAsyncThunk("patients/fetchPatients", async ()=>{
-    const response = await fetch(`${apiUrl}/patients`)
-    const data = response.json();
-    return data.data.patients;
-})
+export const fetchPatients = createAsyncThunk("patients/fetchPatients", async () => {
+    const response = await axios.get(`${apiUrl}/patients`);
+    return response.data.patients;
+});
 
-export const addNewPatient = createAsyncThunk("patients/addPatient" , async (newPatient)=>
-{
-    const response = await fetch(`${apiUrl}/patients`, {
-        method:'POST',
-        headers:{
+export const addNewPatient = createAsyncThunk("patients/addPatient", async (newPatient) => {
+    const response = await axios.post(`${apiUrl}/patients`, newPatient, {
+        headers: {
             'Content-Type': 'application/json',
-        },
-        body:JSON.stringify(newPatient)
-    })
-    const data = await response.json();
-    return data.data.newPatient;
-})
-
-export const updatePatient = createAsyncThunk("patients/updatePatient" , async(PatientDetails)=>
-{
-    const response = await fetch(`${apiUrl}/patients/${PatientDetails._id}` , {
-        method:'POST',
-        headers:{
-            'Content-Type': 'application/json',
-        },
-        body:JSON.stringify(PatientDetails)
+        }
     });
-    const data = await response.json();
+    return response.data.newPatient;
+});
 
-    return data.data.updatedPatient;
-})
+export const updatePatient = createAsyncThunk("patients/updatePatient", async (PatientDetails) => {
+    const response = await axios.post(`${apiUrl}/patients/${PatientDetails._id}`, PatientDetails, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    return response.data.updatedPatient;
+});
 
-export const deletePatient = createAsyncThunk("patients/deletePatient", async(PatientId)=>
-{
-    const response = await fetch(`${apiUrl}/patients/${PatientId}`, {
-        method:'DELETE',
-        headers:{
-            'Content-type':'application/json',
+export const deletePatient = createAsyncThunk("patients/deletePatient", async (PatientId) => {
+    const response = await axios.delete(`${apiUrl}/patients/${PatientId}`, {
+        headers: {
+            'Content-type': 'application/json',
         },
-    })
-    const data = await response.json();
-    return data.data.deletedPatient;
-})
+    });
+    return response.data.deletedPatient;
+});
 
 const initialState ={
     patients:[],
@@ -60,12 +47,12 @@ export const patientsSlice = createSlice({name:"patients",initialState,reducers:
     [fetchPatients.pending]: (state) =>{
         state.status = "idle"
     },
-    [fetchPatients.fulfilled]: (state) => 
+    [fetchPatients.fulfilled]: (state,action) => 
     {
         state.status = "success";
         state.patients = action.payload;
     },
-    [fetchPatients.rejected]: (state)=>
+    [fetchPatients.rejected]: (state,action)=>
     {
         state.status = "error";
         state.error = action.error.message;
@@ -75,12 +62,12 @@ export const patientsSlice = createSlice({name:"patients",initialState,reducers:
     {
         state.status = "idle"
     },
-    [addNewPatient.fulfilled]: (state)=>
+    [addNewPatient.fulfilled]: (state,action)=>
     {
         state.status = "success";
         state.patients.push(action.payload);
     },
-    [addNewPatient.rejected]: (state) =>
+    [addNewPatient.rejected]: (state,action) =>
     {
         state.state="error";
         state.error= action.error.message;
@@ -90,7 +77,7 @@ export const patientsSlice = createSlice({name:"patients",initialState,reducers:
     {
         state.status = "idle"
     },
-    [updatePatient.fulfilled]: (state)=>
+    [updatePatient.fulfilled]: (state,action)=>
     {
         state.success = "success";
         const updatedPatient = action.payload;
@@ -101,7 +88,7 @@ export const patientsSlice = createSlice({name:"patients",initialState,reducers:
             state.patients[index] = updatedPatient;
         }
     },
-    [updatePatient.rejected]: (state)=>
+    [updatePatient.rejected]: (state,action)=>
     {
         state.status="error";
         state.error = action.error.message;
@@ -111,10 +98,15 @@ export const patientsSlice = createSlice({name:"patients",initialState,reducers:
     {
         state.status = "idle"
     },
-    [deletePatient.fulfilled]: (state)=>
+    [deletePatient.fulfilled]: (state,action)=>
     {
         state.status = "success",
         state.patients = [...state.patients].filter(Patient=>Patient._id!== action.payload._id)
+    },
+    [deletePatient.rejected]: (state,action)=>
+    {
+        state.status = "error",
+        state.error = action.error.message
     }
 
 }})
