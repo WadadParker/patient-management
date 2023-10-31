@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPatients, updatePatient } from "../patientsSlice";
+import { fetchPatients, updatePatient, deletePatient } from "../patientsSlice";
 import { EditPatientModal } from "../editPatient/EditPatientModal";
 
 export const PatientList = () => 
@@ -19,6 +19,11 @@ export const PatientList = () =>
     const editHandler=(newPatient)=>
     {
         dispatch(updatePatient(newPatient));
+    }
+
+    const deleteHandler=(patientId)=>
+    {
+        dispatch(deletePatient(patientId));
     }
 
     useEffect(()=>{
@@ -44,7 +49,7 @@ export const PatientList = () =>
                     <td className={styles[`table-data`]}>{item.assignedWard.number} - {item.assignedWard.specializations}</td>
                     <td className={`${styles[`icon-container`]} ${styles[`table-data`]}`}>
                         <FontAwesomeIcon icon={faPenToSquare} className={styles.edit} onClick={() => setShowModal({ modal: true, item })}/>
-                        <FontAwesomeIcon icon={faTrash} className={styles.delete} />
+                        <FontAwesomeIcon icon={faTrash} className={styles.delete} onClick={()=>deleteHandler(item._id)}/>
                     </td>
                 </tr>
             ))
