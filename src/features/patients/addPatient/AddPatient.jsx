@@ -18,11 +18,11 @@ export const AddPatient = () =>
     setInput(prev=>({...prev, [inputField]:text}));
   }
 
-  const isDisabled = () => input.name==="" || input.age<1 || input.medicalHistory==="" || input.contact==="" || input.assignedWard
+  const isDisabled = () => input.name==="" || input.age<1 || input.medicalHistory==="" || input.contact==="" || input.assignedWard===""
 
   const clickHandler =()=>
   {
-    addNewPatient({name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory, contact:input.contact, assignedWard:input.assignedWard});
+    dispatch(addNewPatient({name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory, contact:input.contact, assignedWard:input.assignedWard}));
     setInput({name:"",age:"",medicalHistory:"",contact:"",assignedWard:""});
   }
 
@@ -34,18 +34,18 @@ export const AddPatient = () =>
 
   return (
     <div className={styles[`form-container`]}>
-    <h2 className={styles.heading}>Add New Ward</h2>
+    <h2 className={styles.heading}>Add New Patient</h2>
 
     <input placeholder='Name' value={input.name} onChange={(e)=>changeHandler("name",e.target.value)}/>
     <input type='Number' placeholder='Age' value={input.age} onChange={(e)=>changeHandler("age",e.target.value)}/>
     <input placeholder='Medical History' value={input.medicalHistory} onChange={(e)=>changeHandler("medicalHistory",e.target.value)}/>
     <input placeholder='Contact' value={input.contact} onChange={(e)=>changeHandler("contact",e.target.value)}/>
 
-    <select value={input.assignedWard} onChange={(e)=>changeHandler("assignedWard",e.target.value)}>
+    <select value={input.assignedWard} onChange={(e)=>changeHandler("assignedWard",e.target.value)} className={styles.select}>
 
       <option value={""}>Select Ward</option>
       {wards.map( ward => (
-        <option key={ward._id}>{ward.number} - {ward.specializations}</option>
+        <option key={ward._id} value={ward._id}>{ward.number} - {ward.specializations}</option>
       ))}
     </select>
 
