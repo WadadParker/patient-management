@@ -8,7 +8,7 @@ import { fetchWards } from "../../wards/wardsSlice";
 
 export const AddPatient = () => 
 {
-  const [input,setInput] = useState({name:"",age:"",medicalHistory:"",contact:"",assignedWard:""})
+  const [input,setInput] = useState({name:"",age:"",medicalHistory:"",contact:"",assignedWard:"",gender:"Male"})
 
   const wards = useSelector(state=>state.wards.wards);
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export const AddPatient = () =>
 
   const clickHandler =()=>
   {
-    dispatch(addNewPatient({name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory, contact:input.contact, assignedWard:input.assignedWard}));
+    dispatch(addNewPatient({name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory,gender:input.gender, contact:input.contact, assignedWard:input.assignedWard}));
     setInput({name:"",age:"",medicalHistory:"",contact:"",assignedWard:""});
   }
 
@@ -38,6 +38,11 @@ export const AddPatient = () =>
 
     <input placeholder='Name' value={input.name} onChange={(e)=>changeHandler("name",e.target.value)}/>
     <input type='Number' placeholder='Age' value={input.age} onChange={(e)=>changeHandler("age",e.target.value)}/>
+    <select value={input.gender} onChange={(e)=>changeHandler("gender",e.target.value)} className={styles.select}>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
     <input placeholder='Medical History' value={input.medicalHistory} onChange={(e)=>changeHandler("medicalHistory",e.target.value)}/>
     <input placeholder='Contact' value={input.contact} onChange={(e)=>changeHandler("contact",e.target.value)}/>
 

@@ -5,6 +5,7 @@ import { SideBar } from './components/sideBar/sideBar'
 import { Patients } from './pages/patients/Patients.jsx'
 import { Ward } from './pages/wards/Ward.jsx'
 import { Hospital } from './pages/hospital/Hospital.jsx'
+import { PatientDetails } from './features/patients/patientDetails/PatientDetails'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/' element={<Patients />} />
         <Route path='/wards' element={<Ward />} />
         <Route path='/hospital' element={<Hospital />} />
+        <Route path='/patients/:patientId' element={<PatientDetails />} />
       </Routes>
 
     </div>

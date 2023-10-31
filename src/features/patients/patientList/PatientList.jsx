@@ -1,6 +1,7 @@
 import styles from "./patientList.module.css";
 
 import React, {useEffect,useState} from 'react'
+import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,7 @@ import { EditPatientModal } from "../editPatient/EditPatientModal";
 
 export const PatientList = () => 
 {
+    const navigate=useNavigate();
     const patients = useSelector(state=>state.patients.patients);
     const dispatch = useDispatch();
 
@@ -28,7 +30,7 @@ export const PatientList = () =>
 
     useEffect(()=>{
         dispatch(fetchPatients());
-    },[dispatch])
+    },[dispatch,patients])
 
 
   return (
@@ -45,7 +47,7 @@ export const PatientList = () =>
         <tbody>
             { patients.map(item=>(
                 <tr key={item._id}>
-                    <td className={styles[`table-data`]}>{item.name}</td>
+                    <td className={`${styles[`table-data`]} ${styles.name}`} onClick={()=>navigate(`/patients/${item._id}`)}>{item.name}</td>
                     <td className={styles[`table-data`]}>{item.assignedWard.number} - {item.assignedWard.specializations}</td>
                     <td className={`${styles[`icon-container`]} ${styles[`table-data`]}`}>
                         <FontAwesomeIcon icon={faPenToSquare} className={styles.edit} onClick={() => setShowModal({ modal: true, item })}/>

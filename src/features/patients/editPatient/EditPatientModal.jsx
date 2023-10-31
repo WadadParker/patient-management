@@ -20,7 +20,7 @@ export const EditPatientModal = ({item,setShowModal,editHandler}) => {
 
     const clickHandler=()=>
     {
-        editHandler({id:item._id,name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory, contact:input.contact, assignedWard:input.assignedWard});
+        editHandler({id:item._id,name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory,gender:input.gender ,contact:input.contact, assignedWard:input.assignedWard});
         setShowModal({modal:false,item:{}});
     }
 
@@ -37,6 +37,11 @@ export const EditPatientModal = ({item,setShowModal,editHandler}) => {
             <h3>Edit Item Form</h3>
             <input placeholder='Name' value={input.name} onChange={(e)=>changeHandler("name",e.target.value)}/>
             <input type='Number' placeholder='Age' value={input.age} onChange={(e)=>changeHandler("age",e.target.value)}/>
+            <select value={input?.gender} onChange={(e)=>changeHandler("gender",e.target.value)}>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
             <input placeholder='Medical History' value={input.medicalHistory} onChange={(e)=>changeHandler("medicalHistory",e.target.value)}/>
             <input placeholder='Contact' value={input.contact} onChange={(e)=>changeHandler("contact",e.target.value)}/>
 
