@@ -1,6 +1,7 @@
 import styles from "./wardList.module.css";
 
 import React, {useEffect, useState} from 'react'
+import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const WardList = () => 
 {
+    const navigate=useNavigate();
     const wards = useSelector(state=>state.wards.wards);
     const dispatch = useDispatch();
 
@@ -44,7 +46,7 @@ export const WardList = () =>
         <tbody>
             { wards.map(item=>(
                 <tr key={item._id}>
-                    <td className={styles[`table-data`]}>{item.number}</td>
+                    <td className={`${styles[`table-data`]} ${styles.name}`} onClick={()=>navigate(`/wards/${item._id}`)}>{item.number}</td>
                     <td className={styles[`table-data`]}> {item.specializations}</td>
                     <td className={`${styles[`icon-container`]} ${styles[`table-data`]}`}>
                         <FontAwesomeIcon icon={faPenToSquare} className={styles.edit} onClick={() => setShowModal({ modal: true, item })}/>
