@@ -19,7 +19,6 @@ export const WardDetails = () =>
         dispatch(fetchWards());
     },[dispatch])
 
-
   return (
     <div className={styles[`form-container`]}>
     <h2 className={styles.heading}>Ward Details</h2>

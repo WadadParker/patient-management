@@ -3,7 +3,7 @@ import styles from "./addPatient.module.css";
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 
-import { addNewPatient  } from "../patientsSlice"; 
+import { addNewPatient , fetchPatients } from "../patientsSlice"; 
 import { fetchWards } from "../../wards/wardsSlice";
 
 export const AddPatient = () => 
@@ -24,6 +24,9 @@ export const AddPatient = () =>
   {
     dispatch(addNewPatient({name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory,gender:input.gender, contact:input.contact, assignedWard:input.assignedWard}));
     setInput({name:"",age:"",medicalHistory:"",contact:"",assignedWard:""});
+    setTimeout(()=>{
+      dispatch(fetchPatients());
+    },300);
   }
 
   useEffect(()=>

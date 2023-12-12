@@ -27,7 +27,7 @@ export const PatientDetails = () =>
         <p><b>Gender: </b> {foundPatient?.gender} </p>
         <p><b>Medical History: </b> {foundPatient?.medicalHistory} </p>
         <p><b>Contact: </b> {foundPatient?.contact} </p>
-        <p><b>Assigned Ward: </b> {foundPatient?.assignedWard?.number} - {foundPatient?.assignedWard?.specializations}</p>
+        <p><b>Assigned Ward: </b> {foundPatient?.assignedWard?.number? foundPatient?.assignedWard?.number:"Ward Deleted"} - {foundPatient?.assignedWard?.specializations}</p>
     </div>
   )
 }

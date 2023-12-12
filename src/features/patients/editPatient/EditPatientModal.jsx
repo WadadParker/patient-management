@@ -8,7 +8,7 @@ import { fetchWards } from "../../wards/wardsSlice";
 
 
 export const EditPatientModal = ({item,setShowModal,editHandler}) => {
-    const [input,setInput]=useState({...item, assignedWard:item.assignedWard._id});
+    const [input,setInput]=useState({...item, assignedWard:item?.assignedWard?._id});
 
     const wards = useSelector(state=>state.wards.wards);
     const dispatch = useDispatch();
@@ -20,11 +20,11 @@ export const EditPatientModal = ({item,setShowModal,editHandler}) => {
 
     const clickHandler=()=>
     {
-        editHandler({id:item._id,name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory,gender:input.gender ,contact:input.contact, assignedWard:input.assignedWard});
+        editHandler({_id:item._id,name:input.name, age:Number(input.age), medicalHistory:input.medicalHistory,gender:input.gender ,contact:input.contact, assignedWard:input.assignedWard});
         setShowModal({modal:false,item:{}});
     }
 
-    const isDisabled = () => input.name==="" || input.age<1 || input.medicalHistory==="" || input.contact==="" || input.assignedWard===""
+    const isDisabled = () => input.name==="" || input.age<1 || input.medicalHistory==="" || input.contact==="" || input.assignedWard==="" || !input.assignedWard
 
     useEffect(()=>
     {

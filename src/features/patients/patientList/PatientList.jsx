@@ -21,6 +21,9 @@ export const PatientList = () =>
     const editHandler=(newPatient)=>
     {
         dispatch(updatePatient(newPatient));
+        setTimeout(()=>{
+            dispatch(fetchPatients());
+        },300)
     }
 
     const deleteHandler=(patientId)=>
@@ -30,8 +33,7 @@ export const PatientList = () =>
 
     useEffect(()=>{
         dispatch(fetchPatients());
-    },[dispatch,patients])
-
+    },[dispatch])
 
   return (
     <>
@@ -48,7 +50,7 @@ export const PatientList = () =>
             { patients.map(item=>(
                 <tr key={item._id}>
                     <td className={`${styles[`table-data`]} ${styles.name}`} onClick={()=>navigate(`/patients/${item._id}`)}>{item.name}</td>
-                    <td className={styles[`table-data`]}>{item.assignedWard.number} - {item.assignedWard.specializations}</td>
+                    <td className={styles[`table-data`]}>{item?.assignedWard?.number ?item.assignedWard.number : "Ward deleted"} - {item?.assignedWard?.specializations}</td>
                     <td className={`${styles[`icon-container`]} ${styles[`table-data`]}`}>
                         <FontAwesomeIcon icon={faPenToSquare} className={styles.edit} onClick={() => setShowModal({ modal: true, item })}/>
                         <FontAwesomeIcon icon={faTrash} className={styles.delete} onClick={()=>deleteHandler(item._id)}/>

@@ -21,7 +21,6 @@ export const Hospital = () =>
     dispatch(fetchPatients());
   },[dispatch])
 
-
   return (
     <div className={styles[`form-container`]}>
       <h1>Hospital Details</h1>
